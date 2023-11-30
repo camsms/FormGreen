@@ -1,30 +1,81 @@
 <script>
-	export let name;
-</script>
+	import { Router, Route, Link } from "svelte-navigator";
+	import Login from "./components/Login/Login.svelte";
+	import PrivateRoute from "./components/PrivateRoute/PrivateRoute.svelte";
+	import Form from "./components/Form/Form.svelte";
+	import { user } from "./stores";
+  
+	function handleLogout() {
+	  $user = null;
+	}
+  </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+  <style>
+	.topnav {
+  		display: flex;
+		align-items: center;
+		height: 80px;
+		justify-content: space-between;
+		padding: 40px;
 	}
 
 	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+		color: rgb(33, 33, 139);
 	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	.topnav a {
+ 		float: left;
+  		color: rgb(33, 33, 139);
+  		text-align: center;
+  		padding: 14px 16px;
+  		text-decoration: none;
+  		font-size: 17px;
 	}
-</style>
+
+
+	.topnav a:hover {
+  		background-color: #ddd;
+  		color: black;
+		border-radius: 10px;
+	}
+
+
+	.topnav a.active {
+  		background-color: #04AA6D;
+  		color: white;
+	}
+  </style>
+  
+  <Router>
+	<header>
+		<div class="topnav">
+			<h1>Formulários</h1>
+			<div>
+				<Link to="/"><a href="#w">Home</a></Link>
+			    <Link to="form"><a href="#w">Formulário</a></Link>
+			    <Link to="profile"><a href="#w">Profile</a></Link>
+			</div>
+		</div>
+	</header>
+  
+	<main>
+	  <Route path="login">
+		<Login />
+	  </Route>
+  
+	  <Route path="/">
+		<h3>Home</h3>
+		<p>Home sweet home...</p>
+	  </Route>
+  
+	  <Route path="form">
+		<Form />
+	  </Route>
+  
+	  <PrivateRoute path="profile" let:location>
+		<h3>Welcome {$user.username}</h3>
+		<button on:click={handleLogout}>Logout</button>
+	  </PrivateRoute>
+	</main>
+  </Router>
+  
