@@ -1,6 +1,19 @@
 <script>
 	
+  import items from '../../json/select.json';
+  import { store } from '../../stores';
+  import { useNavigate } from "svelte-navigator";
+
+	const navigate = useNavigate();
+
 	let  avatar, fileinput, file;
+
+  let i = 0;
+
+  let date = '';
+  let solicitante = '';
+  let descricao = '';
+  let sent;
 
 	const onFileSelected = (e) =>{
 		let image = e.target.files[0];
@@ -9,9 +22,16 @@
         reader.readAsDataURL(image);
         reader.onload = e => {
 			avatar = e.target.result
-			console.log(avatar);
+			// console.log(avatar);
         };
 	}
+
+  function create() {
+    $store.stores.push($store);
+    console.log($store.stores);
+    // i = people.length - 1;
+    // first = last = '';
+}
 </script>
 
 
@@ -19,21 +39,20 @@
 <div class="container">
 	<form action="#">
 		<div class="input">
-			<input type="text" class="input-field"  required/>
+			<input type="text" bind:value={solicitante} class="input-field"  required/>
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="input-label">Solicitante</label>
 		</div>
 		<div class="input">
-			<input type="date" class="input-field" style="padding-top: 15px;" required/>
+			<input type="date" bind:value={date} class="input-field" style="padding-top: 15px;" required/>
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="input-label" style="top: 23px;" >Data</label>
 		</div>
 		<div class="input">
-			<select class="input-field" name="cars" id="cars">
-				<option value="volvo">Urgente</option>
-				<option value="saab">Saab</option>
-				<option value="mercedes">Mercedes</option>
-				<option value="audi">Audi</option>
+			<select bind:value={i} class="input-field" name="cars" id="cars">
+        {#each items as {option}, i}
+        <option value={i}>{option}</option>
+        {/each}
 			  </select>
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="input-label" style="top: 23px;" >Encaminhamento</label>
@@ -41,7 +60,7 @@
 		
 	   <div class="form-row">
 	   <div class="input-data textarea">
-		  <textarea rows="8" cols="80" required></textarea>
+		  <textarea bind:value={descricao} rows="8" cols="80" required></textarea>
 		  <br />
 		  <div class="underline"></div>
 		  <label for="">Descrição</label>
@@ -52,6 +71,7 @@
 				{#if avatar}
 				<div class="imagem" style="">
 					<p style="color:#6658d3; font-weight:700">{file.name}</p>
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<img class="upload" src="https://static.thenounproject.com/png/625182-200.png" alt="" on:click={()=>{fileinput.click();}} />
 				</div>
 				{:else}
@@ -65,7 +85,21 @@
 				<input style="display:none" type="file"  on:change={(e)=>onFileSelected(e)} bind:this={fileinput} >
 	
 		  <div class="action">
-			<button class="action-button">Enviar</button>
+			<button on:click={() => {
+        $store.data = date;
+        $store.arquivo = avatar;
+        $store.solicitante = solicitante;
+        $store.encaminhamento = items[i].option;
+        $store.descricao = descricao;
+        $store.stores.push({
+          "data": date,
+          "arquivo": avatar,
+          "solicitante": solicitante,
+          "encaminhamento": items[i].option,
+          "descricao": descricao
+        });
+        navigate('/list')
+      }} class="action-button">Enviar</button>
 		</div>
 	</form>
 	</div>

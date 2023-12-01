@@ -3,11 +3,27 @@
 	import Login from "./components/Login/Login.svelte";
 	import PrivateRoute from "./components/PrivateRoute/PrivateRoute.svelte";
 	import Form from "./components/Form/Form.svelte";
-	import { user } from "./stores";
-  
+	import { user, store } from "./stores";
+    import List from "./components/List/List.svelte";
+	import { onMount } from "svelte";
+
+
 	function handleLogout() {
 	  $user = null;
 	}
+
+	let savestore = false;
+  	$: if (savestore && $store) {
+    	window.sessionStorage.setItem("store", JSON.stringify($store))
+  	}
+  	onMount(async () => {
+    	let ses = window.sessionStorage.getItem("store")
+     	if (ses) {
+        	console.log("sob-- ~ loading ses", ses)
+        	$store = JSON.parse(ses);
+     	}
+    	savestore = true
+  	})
   </script>
 
   <style>
@@ -51,7 +67,7 @@
 		<div class="topnav">
 			<h1>Formulários</h1>
 			<div>
-				<Link to="/"><a href="#w">Home</a></Link>
+				<Link to="list"><a href="#w">Home</a></Link>
 			    <Link to="form"><a href="#w">Formulário</a></Link>
 			    <Link to="profile"><a href="#w">Profile</a></Link>
 			</div>
@@ -63,9 +79,8 @@
 		<Login />
 	  </Route>
   
-	  <Route path="/">
-		<h3>Home</h3>
-		<p>Home sweet home...</p>
+	  <Route path="list">
+		<List />
 	  </Route>
   
 	  <Route path="form">
