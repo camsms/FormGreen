@@ -49,7 +49,7 @@
 			<label class="input-label" style="top: 23px;" >Data</label>
 		</div>
 		<div class="input">
-			<select bind:value={i} class="input-field" name="cars" id="cars">
+			<select bind:value={i} class="input-field">
         {#each items as {option}, i}
         <option value={i}>{option}</option>
         {/each}
