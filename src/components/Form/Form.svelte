@@ -14,6 +14,7 @@
   let solicitante = '';
   let descricao = '';
   let sent;
+  let url = '';
 
 	const onFileSelected = (e) =>{
 		let image = e.target.files[0];
@@ -47,6 +48,11 @@
 			<input type="date" bind:value={date} class="input-field" style="padding-top: 15px;" required/>
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="input-label" style="top: 23px;" >Data</label>
+		</div>
+    <div class="input">
+			<input type="url" bind:value={url} class="input-field" style="padding-top: 15px;" required/>
+			<!-- svelte-ignore a11y-label-has-associated-control -->
+			<label class="input-label" style="top: 23px;" >Link</label>
 		</div>
 		<div class="input">
 			<select bind:value={i} class="input-field">
@@ -96,7 +102,8 @@
           "arquivo": avatar,
           "solicitante": solicitante,
           "encaminhamento": items[i].option,
-          "descricao": descricao
+          "descricao": descricao,
+          "link": url
         });
         navigate('/list')
       }} class="action-button">Enviar</button>
@@ -126,7 +133,7 @@
 	}
 
 	.container{
-    margin: 2rem auto;
+    margin: 0rem auto;
     display: flex;
     flex-direction: column;
     width: 100%;

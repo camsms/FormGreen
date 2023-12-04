@@ -7,7 +7,7 @@
 		{ first: 'Roman', last: 'Tisch' }
 	];
 
-    let prefix = '';
+  let prefix = '';
 	let first = '';
 	let last = '';
 	let i = 0;
@@ -19,9 +19,7 @@
 		  })
 		: people;
 
-$: selected = filteredPeople[i];
 
-$: reset_inputs(selected);
 
 function create() {
     people = people.concat({ first, last });
@@ -35,13 +33,10 @@ function update(index) {
     people = people;
 }
 
-function remove() {
-    // Remove selected person from the source array (people), not the filtered array
-    const index = people.indexOf(selected);
-    people = [...people.slice(0, index), ...people.slice(index + 1)];
-
-    first = last = '';
-    i = Math.min(i, filteredPeople.length - 2);
+function remove(index) {
+    const atual = [...$store.stores.slice(0, index), ...$store.stores.slice(index + 1)];
+    $store.stores = atual;
+    
 }
 
 function reset_inputs(person) {
@@ -63,15 +58,31 @@ function reset_inputs(person) {
 <div class="list">
     <ul>
         <!-- <li>{$store.data}</li> -->
-        {#each $store.stores as data}
+        {#each $store.stores as data, i}
             <li>
-                <p>{data.solicitante}</p>
-                <p>{data.descricao}</p>
-                <p>{data.data}</p>
-                <p>{data.encaminhamento}</p>
+              <div class="solicitante">
+                <div>
+                  <p id="nome">{data.solicitante}</p>
+                  <p style="font-size: 12px; margin-left:7px; color: grey;">{data.data}</p>
+                </div>
+                <div style="display: flex;">
+                  <p style="margin-top:4px;">{data.encaminhamento}</p>
+                  <!-- svelte-ignore a11y-click-events-have-key-events -->
+                  <i on:click={() => remove(i)} style="margin-left:15px; margin-right:-10px; margin-top: -10px" class="fa-solid fa-xmark"></i>
+                </div>
+              </div>
+              <div >
+                <p style="word-wrap: break-word;">{data.descricao}</p>
+                {#if data.link}
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <i class="fa-solid fa-link"></i>
+                  <a href={data.link}>{data.link}</a>
+                </div>
+                {/if}
                 {#if data.arquivo}
                     <img class="avatar" src="{data.arquivo}" alt="d" />
                 {/if}
+              </div>
             </li>
             <!-- <button on:click={() => update(i)} disabled={!first || !last || !selected}><i  class="fa-regular fa-pen-to-square"></i></button> -->
         {/each}
@@ -91,7 +102,7 @@ function reset_inputs(person) {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 425px;
+    max-width: 50%;
     background-color: #FFF;
     border-radius: 10px;
     box-shadow: 0 10px 20px 0 rgba(#999, .25);
@@ -112,13 +123,27 @@ ul {
   margin: 0;
   padding: 0;
   list-style: none;
-  background: #e9e8e8;
+  background: #f0eeee;
 }
 
 li {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px 30px;
   border-top: 1px solid #ccc;
   scroll-snap-align: start;
+  white-space: pre-wrap;
+}
+
+.solicitante {
+  display: flex;
+  justify-content: space-between;
+}
+
+#nome {
+  font-size: 20px;
+  text-transform: capitalize;
 }
 
 li:first-child {
@@ -146,8 +171,8 @@ li:first-child {
 }
 .avatar{
 		display:flex;
-		height:200px;
-		width:200px;
+		height:80%;
+		width:80%;
 	}
 
 </style>
