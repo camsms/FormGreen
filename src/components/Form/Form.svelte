@@ -43,10 +43,12 @@
 <header>
   <div class="topnav">
     <h1>Formulários</h1>
+    {#if !choice}
     <div>
       <Link to="/list"><a href="#w">Home</a></Link>
       <Link to="form"><a href="#w">Formulário</a></Link>
       </div>
+    {/if}
   </div>
 </header>
 
