@@ -4,6 +4,14 @@
   
     const navigate = useNavigate();
     const location = useLocation();
+
+    let data = {
+      "username": "mournkid",
+      "password": "mille"
+    }
+
+    $: console.log($location.pathname);
+
   
     $: if (!$user) {
       navigate("/login", {

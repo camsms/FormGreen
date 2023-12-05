@@ -1,6 +1,11 @@
 <script>
-    import { useNavigate, useLocation } from "svelte-navigator";
+    import { useNavigate, useLocation, Link } from "svelte-navigator";
     import { user } from "../../stores";
+    import { useForm, validators, HintGroup, Hint, email, required } from "svelte-use-form";
+
+	  let eemail;
+	  let senha;
+    const form = useForm();
   
     const navigate = useNavigate();
     const location = useLocation();
@@ -8,13 +13,87 @@
     let username;
     let password;
   
-    function handleSubmit() {
-      $user = { username, password };
-      const from = ($location.state && $location.state.from) || "/";
-      navigate(from, { replace: true });
-    }
+    // function handleSubmit() {
+    //   $user = { username, password };
+    //   const from = ($location.state && $location.state.from) || "/";
+    //   navigate(from, { replace: true });
+    // }
   </script>
   
+  <header>
+    <div class="topnav">
+      <h1>Formulários</h1>
+    </div>
+  </header>
+  
+  <form use:form>
+    <div class="container">
+      <div class="card">
+        <form class="card-form">
+          <div class="input">
+            <input bind:value={eemail} type="email" name="email" class="input-field"  use:validators={[required, email]}/>
+            <!-- svelte-ignore a11y-label-has-associated-control -->
+            <label class="input-label">Usuário</label>
+          </div>
+            <div class="input">
+            <input bind:value={senha} type="password" class="input-field" name="password" use:validators={[required]}/>
+            <label class="input-label">Senha</label>
+          </div>
+          <div class="action">
+            <button class="action-button" on:click={() =>
+              {
+                if(eemail === "mille_sousa@outlook.com" && senha==="mournkid"){
+                  navigate('/list');
+                }
+              }} disabled={!$form.valid}>Entrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </form>
+
+      <!-- <input type="email" bind:value={eemail} name="email" use:validators={[required, email]} />
+  <HintGroup for="email">
+    <Hint on="required">This is a mandatory field</Hint>
+    <Hint on="email" hideWhenRequired>Email is not valid</Hint>
+  </HintGroup> -->
+
+  <!-- <input type="password" bind:value={senha} name="password" use:validators={[required]} />
+  <Hint for="password" on="required">This is a mandatory field</Hint> -->
+
+  <!-- <button on:click={() =>
+  {
+    if(eemail === "mille_sousa@outlook.com" && senha==="mournkid"){
+      navigate('/list');
+    }
+  }} disabled={!$form.valid}>Login</button>
+</form> -->
+<!-- {#if eemail==="mille_sousa@outlook.com"  &&  senha==="mournkid" }
+<p>logado</p>
+{/if} -->
+
+
+
+<!--   
+  <div class="container">
+    <div class="card">
+      <form class="card-form">
+        <div class="input">
+          <input bind:value={username} type="text" class="input-field"  required/>
+          <label class="input-label">Usuário</label>
+        </div>
+          <div class="input">
+          <input bind:value={password} type="password" class="input-field" required/>
+          <label class="input-label">Senha</label>
+        </div>
+        <div class="action">
+          <button class="action-button" on:click={() => handleSubmit()}>Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+   -->
+
   <style>
     *, *:after, *:before {
     box-sizing: border-box;
@@ -95,30 +174,40 @@
       outline: 0;
     }
   }
-  
-  </style>
-  
-  
-  <div class="container">
-    <!-- code here -->
-    <div class="card">
-      <form class="card-form">
-        <div class="input">
-          <input type="text" class="input-field"  required/>
-          <label class="input-label">Usuário</label>
-        </div>
-          <div class="input">
-          <input type="password" class="input-field" required/>
-          <label class="input-label">Senha</label>
-        </div>
-        <div class="action">
-          <button class="action-button">Entrar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  
+  .topnav {
+  		display: flex;
+		align-items: center;
+		height: 80px;
+		justify-content: space-between;
+		padding: 40px;
+	}
 
+	h1 {
+		color: rgb(33, 33, 139);
+	}
+
+	.topnav a {
+ 		float: left;
+  		color: rgb(33, 33, 139);
+  		text-align: center;
+  		padding: 14px 16px;
+  		text-decoration: none;
+  		font-size: 17px;
+	}
+
+
+	.topnav a:hover {
+  		background-color: #ddd;
+  		color: black;
+		border-radius: 10px;
+	}
+
+
+	.topnav a.active {
+  		background-color: #04AA6D;
+  		color: white;
+	}
+  </style>
 
 
   <!-- <h3>Login</h3>

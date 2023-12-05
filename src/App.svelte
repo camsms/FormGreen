@@ -26,56 +26,11 @@
   	})
   </script>
 
-  <style>
-	.topnav {
-  		display: flex;
-		align-items: center;
-		height: 80px;
-		justify-content: space-between;
-		padding: 40px;
-	}
 
-	h1 {
-		color: rgb(33, 33, 139);
-	}
-
-	.topnav a {
- 		float: left;
-  		color: rgb(33, 33, 139);
-  		text-align: center;
-  		padding: 14px 16px;
-  		text-decoration: none;
-  		font-size: 17px;
-	}
-
-
-	.topnav a:hover {
-  		background-color: #ddd;
-  		color: black;
-		border-radius: 10px;
-	}
-
-
-	.topnav a.active {
-  		background-color: #04AA6D;
-  		color: white;
-	}
-  </style>
   
   <Router>
-	<header>
-		<div class="topnav">
-			<h1>Formulários</h1>
-			<div>
-				<Link to="list"><a href="#w">Home</a></Link>
-			    <Link to="form"><a href="#w">Formulário</a></Link>
-			    <Link to="profile"><a href="#w">Profile</a></Link>
-			</div>
-		</div>
-	</header>
-  
 	<main>
-	  <Route path="login">
+	  <Route path="/">
 		<Login />
 	  </Route>
   
@@ -83,7 +38,7 @@
 		<List />
 	  </Route>
   
-	  <Route path="form">
+	  <Route path="/list/form">
 		<Form choice={true}/>
 	  </Route>
   
@@ -94,3 +49,5 @@
 	</main>
   </Router>
   
+
+ 

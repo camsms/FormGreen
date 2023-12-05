@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "sirv-cli": "^2.0.0",
-    "svelte-navigator": "^3.2.2"
+    "svelte-navigator": "^3.2.2",
+    "svelte-use-form": "^2.10.0"
   }
 }

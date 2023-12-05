@@ -2,7 +2,7 @@
 	
   import items from '../../json/select.json';
   import { store } from '../../stores';
-  import { useNavigate } from "svelte-navigator";
+  import { useNavigate, Link } from "svelte-navigator";
 
 	const navigate = useNavigate();
 
@@ -40,6 +40,15 @@
 </script>
 
 
+<header>
+  <div class="topnav">
+    <h1>Formulários</h1>
+    <div>
+      <Link to="/list"><a href="#w">Home</a></Link>
+      <Link to="form"><a href="#w">Formulário</a></Link>
+      </div>
+  </div>
+</header>
 
 <div class="container">
 	<form action="#">
@@ -139,6 +148,33 @@
 
 
 <style>
+  .topnav {
+  		display: flex;
+		align-items: center;
+		height: 80px;
+		justify-content: space-between;
+		padding: 40px;
+	}
+
+	h1 {
+		color: rgb(33, 33, 139);
+	}
+
+	.topnav a {
+ 		float: left;
+  		color: rgb(33, 33, 139);
+  		text-align: center;
+  		padding: 14px 16px;
+  		text-decoration: none;
+  		font-size: 17px;
+	}
+
+
+	.topnav a:hover {
+  		background-color: #ddd;
+  		color: black;
+		border-radius: 10px;
+	}
 
 	.imagem {
 		border: 2px solid #eee;

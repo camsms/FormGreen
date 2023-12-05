@@ -2,6 +2,7 @@
    import { store } from '../../stores';
    import Modal from '../Modal/Modal.svelte';
    import Form from '../Form/Form.svelte';
+   import { Link } from 'svelte-navigator';
    
    let showModal = false;
  
@@ -22,6 +23,15 @@ function remove(index) {
 
 </script>
 
+<header>
+  <div class="topnav">
+    <h1>Formulários</h1>
+    <div>
+      <Link to="/list"><a href="#w">Home</a></Link>
+      <Link to="form"><a href="#w">Formulário</a></Link>
+      </div>
+  </div>
+</header>
 <div class="container">
     <!-- <input placeholder="filter prefix" bind:value={prefix} />
     <label><input bind:value={first} placeholder="first" /></label>
@@ -167,6 +177,34 @@ li:first-child {
 		display:flex;
 		height:80%;
 		width:80%;
+	}
+
+  .topnav {
+  		display: flex;
+		align-items: center;
+		height: 80px;
+		justify-content: space-between;
+		padding: 40px;
+	}
+
+	h1 {
+		color: rgb(33, 33, 139);
+	}
+
+	.topnav a {
+ 		float: left;
+  		color: rgb(33, 33, 139);
+  		text-align: center;
+  		padding: 14px 16px;
+  		text-decoration: none;
+  		font-size: 17px;
+	}
+
+
+	.topnav a:hover {
+  		background-color: #ddd;
+  		color: black;
+		border-radius: 10px;
 	}
 
 </style>
