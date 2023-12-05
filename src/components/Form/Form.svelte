@@ -6,19 +6,23 @@
 
 	const navigate = useNavigate();
 
-	let  avatar, fileinput, file;
-
+	let fileinput, file;
+  export let avatar;
   let i = 0;
 
-  let date = '';
-  let solicitante = '';
-  let descricao = '';
-  let sent;
-  let url = '';
+  export let choice = true;
+  export let n;
+
+  export let date = '';
+  export let solicitante = '';
+  export let descricao = '';
+  export let name = '';
+  export let url = '';
 
 	const onFileSelected = (e) =>{
 		let image = e.target.files[0];
 		file = image;
+    name = file.name;
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = e => {
@@ -45,12 +49,12 @@
 			<label class="input-label">Solicitante</label>
 		</div>
 		<div class="input">
-			<input type="date" bind:value={date} class="input-field" style="padding-top: 15px;" required/>
+			<input type="date" bind:value={date} class="input-field" style="padding-top: 15px;" />
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="input-label" style="top: 23px;" >Data</label>
 		</div>
     <div class="input">
-			<input type="url" bind:value={url} class="input-field" style="padding-top: 15px;" required/>
+			<input type="url" bind:value={url} class="input-field" style="padding-top: 15px;" />
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="input-label" style="top: 23px;" >Link</label>
 		</div>
@@ -66,7 +70,7 @@
 		
 	   <div class="form-row">
 	   <div class="input-data textarea">
-		  <textarea bind:value={descricao} rows="8" cols="80" required></textarea>
+		  <textarea bind:value={descricao} rows="8" cols="80"></textarea>
 		  <br />
 		  <div class="underline"></div>
 		  <label for="">Descrição</label>
@@ -76,7 +80,7 @@
 				<label class="input-label" style="top: 0px;" >Anexe um arquivo</label>
 				{#if avatar}
 				<div class="imagem" style="">
-					<p style="color:#6658d3; font-weight:700">{file.name}</p>
+					<p style="color:#6658d3; font-weight:700">{name}</p>
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<img class="upload" src="https://static.thenounproject.com/png/625182-200.png" alt="" on:click={()=>{fileinput.click();}} />
 				</div>
@@ -89,7 +93,7 @@
 			</div>
 				
 				<input style="display:none" type="file"  on:change={(e)=>onFileSelected(e)} bind:this={fileinput} >
-	
+	    {#if choice}
 		  <div class="action">
 			<button on:click={() => {
         $store.data = date;
@@ -103,11 +107,33 @@
           "solicitante": solicitante,
           "encaminhamento": items[i].option,
           "descricao": descricao,
-          "link": url
+          "link": url,
+          "nameFile": name 
         });
         navigate('/list')
       }} class="action-button">Enviar</button>
 		</div>
+    {:else}
+    <div class="action">
+			<button on:click={() => {
+        $store.data = date;
+        $store.arquivo = avatar;
+        $store.solicitante = solicitante;
+        $store.encaminhamento = items[i].option;
+        $store.descricao = descricao;
+        $store.stores[n] = {
+          "data": date,
+          "arquivo": avatar,
+          "solicitante": solicitante,
+          "encaminhamento": items[i].option,
+          "descricao": descricao,
+          "link": url,
+          "nameFile": name
+        };
+        navigate('/list')
+      }} class="action-button">Enviar</button>
+		</div>
+    {/if}
 	</form>
 	</div>
 

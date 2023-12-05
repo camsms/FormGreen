@@ -1,37 +1,18 @@
 <script>
    import { store } from '../../stores';
+   import Modal from '../Modal/Modal.svelte';
+   import Form from '../Form/Form.svelte';
+   
+   let showModal = false;
+ 
+	 let i = 0;
+   let index = 0;
 
-    let people = [
-		{ first: 'Hans', last: 'Emil' },
-		{ first: 'Max', last: 'Mustermann' },
-		{ first: 'Roman', last: 'Tisch' }
-	];
 
-  let prefix = '';
-	let first = '';
-	let last = '';
-	let i = 0;
-
-    $: filteredPeople = prefix
-		? people.filter((person) => {
-				const name = `${person.last}, ${person.first}`;
-				return name.toLowerCase().startsWith(prefix.toLowerCase());
-		  })
-		: people;
+  $: console.log($store.stores);
 
 
 
-function create() {
-    people = people.concat({ first, last });
-    i = people.length - 1;
-    first = last = '';
-}
-
-function update(index) {
-    filteredPeople[index].first = first;
-    filteredPeople[index].last = last;
-    people = people;
-}
 
 function remove(index) {
     const atual = [...$store.stores.slice(0, index), ...$store.stores.slice(index + 1)];
@@ -39,10 +20,6 @@ function remove(index) {
     
 }
 
-function reset_inputs(person) {
-    first = person ? person.first : '';
-    last = person ? person.last : '';
-}
 </script>
 
 <div class="container">
@@ -69,6 +46,8 @@ function reset_inputs(person) {
                   <p style="margin-top:4px;">{data.encaminhamento}</p>
                   <!-- svelte-ignore a11y-click-events-have-key-events -->
                   <i on:click={() => remove(i)} style="margin-left:15px; margin-right:-10px; margin-top: -10px" class="fa-solid fa-xmark"></i>
+                  <!-- svelte-ignore a11y-click-events-have-key-events -->
+                  <i on:click={() => {showModal = true; index = i;}} style="margin-left:25px; margin-right:-10px; margin-top: -10px" class="fa-solid fa-pen-to-square"></i>
                 </div>
               </div>
               <div >
@@ -89,6 +68,21 @@ function reset_inputs(person) {
     </ul>
   </div>
 </div>
+
+<Modal bind:showModal>
+  {#if showModal}
+	<Form 
+    bind:solicitante={$store.stores[index].solicitante}
+    bind:descricao={$store.stores[index].descricao}
+    bind:url={$store.stores[index].link}
+    bind:date={$store.stores[index].data}
+    bind:avatar={$store.stores[index].arquivo}
+    bind:name={$store.stores[index].nameFile}
+    choice={false}
+    n={index}
+  />
+  {/if}
+</Modal>
 
 
 <style>

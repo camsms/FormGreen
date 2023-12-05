@@ -84,7 +84,7 @@
 	  </Route>
   
 	  <Route path="form">
-		<Form />
+		<Form choice={true}/>
 	  </Route>
   
 	  <PrivateRoute path="profile" let:location>
