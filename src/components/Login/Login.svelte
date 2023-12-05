@@ -42,7 +42,7 @@
           <div class="action">
             <button class="action-button" on:click={() =>
               {
-                if(eemail === "mille_sousa@outlook.com" && senha==="mournkid"){
+                if(eemail === "alexandre@softgreen.com.br" && senha==="123456"){
                   navigate('/list');
                 }
               }} disabled={!$form.valid}>Entrar</button>
